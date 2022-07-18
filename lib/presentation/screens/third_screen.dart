@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_bloc/presentation/screens/second_screen.dart';
 
 import '/logic/cubit/counter_cubit.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.title}) : super(key: key);
+class ThirdScreen extends StatefulWidget {
+  const ThirdScreen({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ThirdScreen> createState() => _ThirdScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ThirdScreenState extends State<ThirdScreen> {
+
   @override
   Widget build(BuildContext context) {
-    print("BUILD HUHU");
+    print("BUILD SECOND");
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -29,16 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocConsumer<CounterCubit, CounterState>(
               listener: (context, state) => {
-                if (state.wasIncremented == true)
-                  {
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        const SnackBar(
-                          content: Text('Counter incremented'),
-                        ),
-                      )
-                  }
+                if(state.wasIncremented == true) {
+                  ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    const SnackBar(
+                      content: Text('Counter incremented'),
+                    ),
+                  )
+                }
               },
               builder: (context, state) {
                 return Text(
@@ -55,38 +54,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     BlocProvider.of<CounterCubit>(context).decrement();
                     // context.bloc<CounterCubit>().decrement();
                   },
-                  tooltip: "Decrement",
-                  heroTag: "1",
+                  tooltip: "Decrement2",
+                  heroTag: "11",
                   child: Icon(Icons.remove),
                 ),
                 FloatingActionButton(
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
-                  tooltip: "Increment",
-                  heroTag: "2",
+                  tooltip: "Increment2",
+                  heroTag: "12",
                   child: Icon(Icons.add),
                 ),
               ],
             ),
-            SizedBox(
-              height: 50,
-            ),
-            MaterialButton(
-              color: Colors.green,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context2) => BlocProvider.value(
-                      value: BlocProvider.of<CounterCubit>(context),
-                      child: SecondScreen(title: 'Screen 2'),
-                    ),
-                  ),
-                );
-              },
-              child: Text("Go to screen 2"),
-            )
+            SizedBox(height: 50,),
+            // MaterialButton(
+            //   color: Colors.green,
+            //   onPressed: (){},
+            //   child: Text("Go to screen 2"),  
+            // )
           ],
         ),
       ),

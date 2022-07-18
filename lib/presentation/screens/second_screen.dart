@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_bloc/presentation/screens/third_screen.dart';
 
 import '/logic/cubit/counter_cubit.dart';
 
@@ -55,6 +56,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     // context.bloc<CounterCubit>().decrement();
                   },
                   tooltip: "Decrement2",
+                  heroTag: "11",
                   child: Icon(Icons.remove),
                 ),
                 FloatingActionButton(
@@ -62,6 +64,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
                   tooltip: "Increment2",
+                  heroTag: "12",
                   child: Icon(Icons.add),
                 ),
               ],
@@ -69,8 +72,18 @@ class _SecondScreenState extends State<SecondScreen> {
             SizedBox(height: 50,),
             MaterialButton(
               color: Colors.green,
-              onPressed: (){},
-              child: Text("Go to screen 2"),  
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context2) => BlocProvider.value(
+                      value: BlocProvider.of<CounterCubit>(context),
+                      child: ThirdScreen(title: 'Screen 3'),
+                    ),
+                  ),
+                );
+              },
+              child: Text("Go to screen 3"),
             )
           ],
         ),
