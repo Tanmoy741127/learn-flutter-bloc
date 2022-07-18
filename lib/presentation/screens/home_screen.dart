@@ -18,101 +18,102 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     print("BUILD HUHU");
-    return BlocListener<InternetCubit, InternetState>(
-      listener: (context, state) {
-        if(state is InternetConnected){
-          if(state.connectionType == ConnectionType.Wifi){
-            BlocProvider.of<CounterCubit>(context).increment();
-          }else if(state.connectionType == ConnectionType.Mobile){
-            BlocProvider.of<CounterCubit>(context).decrement();
-          }
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              BlocBuilder<InternetCubit, InternetState>(
-                  builder: (context, state) {
-                if (state is InternetConnected) {
-                  return Text("Connected to ${state.connectionType}");
-                } else if (state is InternetDisconnected) {
-                  return Text("Disconnected");
-                } else {
-                  return Text("Loading");
-                }
-              }),
-              const Text(
-                'COUNTER VALUE:',
-              ),
-              BlocConsumer<CounterCubit, CounterState>(
-                listener: (context, state) => {
-                  if (state.wasIncremented == true)
-                    {
-                      ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(
-                          const SnackBar(
-                            content: Text('Counter incremented'),
-                          ),
-                        )
-                    }
-                },
-                builder: (context, state) {
-                  return Text(
-                    state.count.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
-                      // context.bloc<CounterCubit>().decrement();
-                    },
-                    tooltip: "Decrement",
-                    heroTag: "1",
-                    child: Icon(Icons.remove),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
-                    },
-                    tooltip: "Increment",
-                    heroTag: "2",
-                    child: Icon(Icons.add),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              MaterialButton(
-                color: Colors.green,
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/second");
-                },
-                child: Text("Go to screen 2"),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              MaterialButton(
-                color: Colors.red,
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/third");
-                },
-                child: Text("Go to screen 3"),
-              ),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Builder(builder: (context){
+              final counterState = context.watch<CounterCubit>().state;
+              final internetState = context.watch<InternetCubit>().state;
+
+              if (internetState is InternetConnected) {
+                return Text("Connected to ${internetState.connectionType}");
+              } else if (internetState is InternetDisconnected) {
+                return Text("Disconnected");
+              } else {
+                return Text("Loading");
+              }
+            }),
+            // BlocBuilder<InternetCubit, InternetState>(
+            //     builder: (context, state) {
+            //   if (state is InternetConnected) {
+            //     return Text("Connected to ${state.connectionType}");
+            //   } else if (state is InternetDisconnected) {
+            //     return Text("Disconnected");
+            //   } else {
+            //     return Text("Loading");
+            //   }
+            // }),
+            const Text(
+              'COUNTER VALUE:',
+            ),
+            BlocConsumer<CounterCubit, CounterState>(
+              listener: (context, state) => {
+                if (state.wasIncremented == true)
+                  {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(
+                          content: Text('Counter incremented'),
+                        ),
+                      )
+                  }
+              },
+              builder: (context, state) {
+                return Text(
+                  state.count.toString(),
+                  style: Theme.of(context).textTheme.headline4,
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).decrement();
+                    // context.bloc<CounterCubit>().decrement();
+                  },
+                  tooltip: "Decrement",
+                  heroTag: "1",
+                  child: Icon(Icons.remove),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).increment();
+                  },
+                  tooltip: "Increment",
+                  heroTag: "2",
+                  child: Icon(Icons.add),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            MaterialButton(
+              color: Colors.green,
+              onPressed: () {
+                Navigator.of(context).pushNamed("/second");
+              },
+              child: Text("Go to screen 2"),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            MaterialButton(
+              color: Colors.red,
+              onPressed: () {
+                Navigator.of(context).pushNamed("/third");
+              },
+              child: Text("Go to screen 3"),
+            ),
+          ],
         ),
       ),
     );

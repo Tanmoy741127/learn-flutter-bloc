@@ -15,6 +15,7 @@ void main() {
     appRouter: AppRouter(),
     connectivity: Connectivity(),
   ));
+
 }
 
 class MyApp extends StatelessWidget {
