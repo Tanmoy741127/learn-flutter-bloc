@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_bloc/logic/cubit/internet_cubit.dart';
 import 'package:learn_bloc/presentation/screens/second_screen.dart';
 
 import '/logic/cubit/counter_cubit.dart';
@@ -24,6 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(
+              builder: (context, state){
+                if(state is InternetConnected){
+                  return Text("Connected to ${state.connectionType}");
+                }else if(state is InternetDisconnected){
+                  return Text("Disconnected");
+                }else{
+                  return Text("Loading");
+                }
+              }
+            ),
             const Text(
               'COUNTER VALUE:',
             ),
