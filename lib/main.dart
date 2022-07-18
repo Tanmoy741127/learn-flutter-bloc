@@ -49,55 +49,53 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocListener<CounterCubit, CounterState>(
-        listener: (context, state) {
-          if(state.wasIncremented == true){
-            ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text("Counter incremented"),
-              ),
-            );
-          }
-        },
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'COUNTER VALUE:',
-              ),
-              BlocBuilder<CounterCubit, CounterState>(
-                builder: (context, state) {
-                  return Text(
-                    state.count.toString(),
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
-                      // context.bloc<CounterCubit>().decrement();
-                    },
-                    tooltip: "Decrement",
-                    child: Icon(Icons.remove),
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
-                    },
-                    tooltip: "Increment",
-                    child: Icon(Icons.add),
-                  ),
-                ],
-              )
-            ],
-          ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'COUNTER VALUE:',
+            ),
+            BlocConsumer<CounterCubit, CounterState>(
+              listener: (context, state) => {
+                if(state.wasIncremented == true) {
+                  ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    const SnackBar(
+                      content: Text('Counter incremented'),
+                    ),
+                  )
+                }
+              },
+              builder: (context, state) {
+                return Text(
+                  state.count.toString(),
+                  style: Theme.of(context).textTheme.headline4,
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).decrement();
+                    // context.bloc<CounterCubit>().decrement();
+                  },
+                  tooltip: "Decrement",
+                  child: Icon(Icons.remove),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    BlocProvider.of<CounterCubit>(context).increment();
+                  },
+                  tooltip: "Increment",
+                  child: Icon(Icons.add),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
