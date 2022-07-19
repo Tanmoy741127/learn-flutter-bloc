@@ -4,6 +4,7 @@ import 'package:learn_bloc/constants/enums.dart';
 import 'package:learn_bloc/logic/cubit/internet_cubit.dart';
 import 'package:learn_bloc/presentation/screens/second_screen.dart';
 
+import '../../logic/cubit/counter_state.dart';
 import '/logic/cubit/counter_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
